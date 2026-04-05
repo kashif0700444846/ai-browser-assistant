@@ -280,7 +280,7 @@ No — it requires an internet connection to call the Claude API.
 
 <div align="center">
 
-**Made with ❤️ by [github-kashif](https://github.com/github-kashif)**
+**Made with ❤️ by [M Kashif](https://github.com/kashif0700444846)**
 
 ⭐ **Star this repo** if it helped you — it helps others find it!
 
