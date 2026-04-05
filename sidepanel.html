@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Browser Assistant</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0f0f13;
+      color: #e2e8f0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      padding: 14px 16px;
+      background: #18181f;
+      border-bottom: 1px solid #2d2d3a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header h1 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #a5b4fc;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header h1::before {
+      content: '✦';
+      color: #6366f1;
+    }
+
+    .settings-btn {
+      background: none;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 4px;
+      border-radius: 6px;
+      transition: color 0.2s;
+    }
+
+    .settings-btn:hover { color: #a5b4fc; }
+
+    .page-context {
+      padding: 10px 14px;
+      background: #13131a;
+      border-bottom: 1px solid #2d2d3a;
+      font-size: 11px;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-context span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: #94a3b8;
+    }
+
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; flex-shrink: 0; }
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .messages::-webkit-scrollbar { width: 4px; }
+    .messages::-webkit-scrollbar-track { background: transparent; }
+    .messages::-webkit-scrollbar-thumb { background: #2d2d3a; border-radius: 2px; }
+
+    .message {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-width: 92%;
+    }
+
+    .message.user { align-self: flex-end; align-items: flex-end; }
+    .message.assistant { align-self: flex-start; align-items: flex-start; }
+
+    .message-bubble {
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .user .message-bubble {
+      background: #6366f1;
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    .assistant .message-bubble {
+      background: #1e1e2a;
+      color: #e2e8f0;
+      border-bottom-left-radius: 4px;
+      border: 1px solid #2d2d3a;
+    }
+
+    .message-label {
+      font-size: 10px;
+      color: #475569;
+      padding: 0 4px;
+    }
+
+    .action-card {
+      background: #1a1a24;
+      border: 1px solid #3730a3;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    .action-card .action-title {
+      color: #a5b4fc;
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .action-card .action-detail { color: #94a3b8; margin-bottom: 8px; }
+
+    .run-action-btn {
+      background: #6366f1;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .run-action-btn:hover { background: #4f46e5; }
+    .run-action-btn:disabled { background: #3730a3; cursor: default; opacity: 0.6; }
+
+    .input-area {
+      padding: 12px;
+      background: #18181f;
+      border-top: 1px solid #2d2d3a;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+    }
+
+    textarea {
+      flex: 1;
+      background: #0f0f13;
+      border: 1px solid #2d2d3a;
+      border-radius: 10px;
+      color: #e2e8f0;
+      font-size: 13px;
+      padding: 10px 12px;
+      resize: none;
+      min-height: 44px;
+      max-height: 120px;
+      font-family: inherit;
+      line-height: 1.4;
+      transition: border-color 0.2s;
+    }
+
+    textarea:focus { outline: none; border-color: #6366f1; }
+    textarea::placeholder { color: #475569; }
+
+    .send-btn {
+      background: #6366f1;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      width: 44px;
+      height: 44px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .send-btn:hover { background: #4f46e5; }
+    .send-btn:active { transform: scale(0.95); }
+    .send-btn:disabled { background: #3730a3; cursor: default; opacity: 0.6; }
+
+    .options-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .option-toggle {
+      background: #0f0f13;
+      border: 1px solid #2d2d3a;
+      border-radius: 6px;
+      color: #64748b;
+      cursor: pointer;
+      font-size: 11px;
+      padding: 4px 10px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .option-toggle.active {
+      background: #1e1e3a;
+      border-color: #6366f1;
+      color: #a5b4fc;
+    }
+
+    .thinking {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding: 10px 14px;
+      background: #1e1e2a;
+      border-radius: 14px;
+      border: 1px solid #2d2d3a;
+      border-bottom-left-radius: 4px;
+      width: fit-content;
+    }
+
+    .thinking span {
+      width: 6px;
+      height: 6px;
+      background: #6366f1;
+      border-radius: 50%;
+      animation: bounce 1.2s ease-in-out infinite;
+    }
+
+    .thinking span:nth-child(2) { animation-delay: 0.2s; }
+    .thinking span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0.7); opacity: 0.5; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Settings panel */
+    .settings-panel {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .settings-panel.active { display: flex; }
+
+    .settings-content {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .settings-group label {
+      display: block;
+      font-size: 12px;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+
+    .settings-group input {
+      width: 100%;
+      background: #0f0f13;
+      border: 1px solid #2d2d3a;
+      border-radius: 8px;
+      color: #e2e8f0;
+      font-size: 13px;
+      padding: 8px 12px;
+    }
+
+    .settings-group input:focus { outline: none; border-color: #6366f1; }
+
+    .save-btn {
+      background: #6366f1;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 13px;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+    }
+
+    .save-btn:hover { background: #4f46e5; }
+
+    .chat-panel { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+    .chat-panel.hidden { display: none; }
+
+    .welcome {
+      text-align: center;
+      padding: 40px 20px;
+      color: #475569;
+    }
+
+    .welcome .icon { font-size: 36px; margin-bottom: 12px; }
+    .welcome h2 { font-size: 16px; color: #94a3b8; margin-bottom: 8px; }
+    .welcome p { font-size: 12px; line-height: 1.6; }
+
+    .suggestions {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 16px;
+    }
+
+    .suggestion-btn {
+      background: #18181f;
+      border: 1px solid #2d2d3a;
+      border-radius: 8px;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 12px;
+      padding: 8px 12px;
+      text-align: left;
+      transition: all 0.2s;
+    }
+
+    .suggestion-btn:hover {
+      background: #1e1e2a;
+      border-color: #6366f1;
+      color: #a5b4fc;
+    }
+
+    .status-msg {
+      font-size: 11px;
+      color: #64748b;
+      text-align: center;
+      padding: 4px;
+    }
+
+    .status-msg.error { color: #f87171; }
+    .status-msg.success { color: #4ade80; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>AI Browser Assistant</h1>
+    <button class="settings-btn" id="settingsToggle" title="Settings">⚙</button>
+  </div>
+
+  <!-- Chat Panel -->
+  <div class="chat-panel" id="chatPanel">
+    <div class="page-context">
+      <div class="dot"></div>
+      <span id="pageTitle">Loading page info...</span>
+    </div>
+
+    <div class="messages" id="messages">
+      <div class="welcome" id="welcomeMsg">
+        <div class="icon">✦</div>
+        <h2>AI Browser Assistant</h2>
+        <p>I can read your current page, take screenshots, and perform actions. Ask me anything about the page or tell me what to do.</p>
+        <div class="suggestions">
+          <button class="suggestion-btn" data-suggestion="Summarize this page">Summarize this page</button>
+          <button class="suggestion-btn" data-suggestion="What are the main links on this page?">What are the main links?</button>
+          <button class="suggestion-btn" data-suggestion="Find and click the search button">Find and click the search button</button>
+          <button class="suggestion-btn" data-suggestion="Scroll down and tell me what you see">Scroll down and tell me what you see</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <div class="options-row">
+        <button class="option-toggle active" id="togglePageRead" title="Read page content">📄 Read Page</button>
+        <button class="option-toggle" id="toggleScreenshot" title="Include screenshot">📸 Screenshot</button>
+        <button class="option-toggle active" id="toggleActions" title="Allow page actions">⚡ Actions</button>
+      </div>
+      <div class="input-row">
+        <textarea id="userInput" placeholder="Ask about or act on this page..." rows="1"></textarea>
+        <button class="send-btn" id="sendBtn" title="Send">↑</button>
+      </div>
+      <div class="status-msg" id="statusMsg"></div>
+    </div>
+  </div>
+
+  <!-- Settings Panel -->
+  <div class="settings-panel" id="settingsPanel">
+    <div class="settings-content">
+      <h2 style="font-size:14px; color:#a5b4fc;">Settings</h2>
+
+      <div class="settings-group">
+        <label>Anthropic API Key</label>
+        <input type="password" id="apiKeyInput" placeholder="sk-ant-..." />
+        <p style="font-size:11px; color:#475569; margin-top:6px;">
+          Get your key at console.anthropic.com
+        </p>
+      </div>
+
+      <div class="settings-group">
+        <label>Model</label>
+        <input type="text" id="modelInput" value="claude-opus-4-5" />
+      </div>
+
+      <button class="save-btn" id="saveSettings">Save Settings</button>
+      <div class="status-msg" id="settingsStatus"></div>
+    </div>
+  </div>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>

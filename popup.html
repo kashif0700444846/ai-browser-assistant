@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      width: 220px;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0f0f13;
+      color: #e2e8f0;
+    }
+    h2 { font-size: 14px; color: #a5b4fc; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    h2::before { content: '✦'; color: #6366f1; }
+    .btn {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      margin-bottom: 8px;
+      transition: all 0.2s;
+    }
+    .primary { background: #6366f1; color: white; }
+    .primary:hover { background: #4f46e5; }
+    .secondary { background: #18181f; color: #94a3b8; border: 1px solid #2d2d3a; }
+    .secondary:hover { background: #1e1e2a; color: #a5b4fc; border-color: #6366f1; }
+    p { font-size: 11px; color: #475569; text-align: center; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <h2>AI Browser Assistant</h2>
+  <button class="btn primary" id="openPanel">Open Side Panel</button>
+  <button class="btn secondary" id="openSettings">⚙ Settings</button>
+  <p>Click "Open Side Panel" to start chatting with your browser</p>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head><title>Generate Icons</title></head>
+<body>
+<canvas id="c16" width="16" height="16" style="display:none"></canvas>
+<canvas id="c48" width="48" height="48" style="display:none"></canvas>
+<canvas id="c128" width="128" height="128" style="display:none"></canvas>
+<script>
+  function drawIcon(canvas, size) {
+    const ctx = canvas.getContext('2d');
+    const s = size;
+    // Background
+    ctx.fillStyle = '#6366f1';
+    ctx.beginPath();
+    ctx.roundRect(0, 0, s, s, s * 0.2);
+    ctx.fill();
+    // Star symbol
+    ctx.fillStyle = 'white';
+    ctx.font = `bold ${s * 0.6}px serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('✦', s/2, s/2);
+  }
+
+  function downloadIcon(canvasId, filename) {
+    const canvas = document.getElementById(canvasId);
+    drawIcon(canvas, canvas.width);
+    const link = document.createElement('a');
+    link.download = filename;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  // Auto-download all icons
+  window.onload = () => {
+    setTimeout(() => downloadIcon('c16', 'icon16.png'), 100);
+    setTimeout(() => downloadIcon('c48', 'icon48.png'), 600);
+    setTimeout(() => downloadIcon('c128', 'icon128.png'), 1100);
+    document.body.innerHTML += '<p>Icons downloaded! Place them in the <strong>icons/</strong> folder of the extension.</p>';
+  };
+</script>
+</body>
+</html>
