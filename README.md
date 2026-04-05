@@ -4,11 +4,11 @@
 
 **The open-source AI-powered Chrome extension that reads, understands, and controls your browser — just like Comet, but free and fully yours.**
 
-[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://github.com/github-kashif/ai-browser-assistant)
+[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://github.com/kashif0700444846/ai-browser-assistant)
 [![Manifest V3](https://img.shields.io/badge/Manifest-V3-green?style=for-the-badge)](https://developer.chrome.com/docs/extensions/mv3/)
 [![Claude AI](https://img.shields.io/badge/Powered%20by-Claude%20AI-orange?style=for-the-badge)](https://anthropic.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
-[![Stars](https://img.shields.io/github/stars/github-kashif/ai-browser-assistant?style=for-the-badge)](https://github.com/github-kashif/ai-browser-assistant/stargazers)
+[![Stars](https://img.shields.io/github/stars/kashif0700444846/ai-browser-assistant?style=for-the-badge)](https://github.com/kashif0700444846/ai-browser-assistant/stargazers)
 
 > 🤖 **Chat with any webpage. Click buttons. Fill forms. Summarize content. All with natural language.**
 
@@ -112,7 +112,7 @@ Claude can perform real actions on your page:
 
 1. **Clone** this repository:
    ```bash
-   git clone https://github.com/github-kashif/ai-browser-assistant.git
+   git clone https://github.com/kashif0700444846/ai-browser-assistant.git
    ```
 
 2. Open Chrome and go to:
@@ -128,7 +128,7 @@ Claude can perform real actions on your page:
 
 ### Method 2: Download ZIP
 
-1. Click [Code → Download ZIP](https://github.com/github-kashif/ai-browser-assistant/archive/refs/heads/main.zip)
+1. Click [Code → Download ZIP](https://github.com/kashif0700444846/ai-browser-assistant/archive/refs/heads/main.zip)
 2. Extract the ZIP
 3. Follow steps 2–5 above
 
@@ -284,7 +284,7 @@ No — it requires an internet connection to call the Claude API.
 
 ⭐ **Star this repo** if it helped you — it helps others find it!
 
-[![Share on X](https://img.shields.io/badge/Share%20on%20X-000000?style=for-the-badge&logo=x&logoColor=white)](https://twitter.com/intent/tweet?text=%F0%9F%A4%96+AI+Browser+Assistant+-+Free+open-source+Chrome+extension+powered+by+Claude+AI%21+Chat+with+any+webpage%2C+click+buttons%2C+fill+forms+with+natural+language.+Like+Comet+browser+but+FREE+%26+open-source%21&url=https%3A%2F%2Fgithub.com%2Fgithub-kashif%2Fai-browser-assistant&hashtags=AI%2CChromeExtension%2CClaudeAI%2COpenSource%2CWebAutomation%2CBrowserAI)
-[![Share on LinkedIn](https://img.shields.io/badge/Share%20on%20LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fgithub.com%2Fgithub-kashif%2Fai-browser-assistant)
+[![Share on X](https://img.shields.io/badge/Share%20on%20X-000000?style=for-the-badge&logo=x&logoColor=white)](https://twitter.com/intent/tweet?text=%F0%9F%A4%96+AI+Browser+Assistant+-+Free+open-source+Chrome+extension+powered+by+Claude+AI%21+Chat+with+any+webpage%2C+click+buttons%2C+fill+forms+with+natural+language.+Like+Comet+browser+but+FREE+%26+open-source%21&url=https%3A%2F%2Fgithub.com%2Fkashif0700444846%2Fai-browser-assistant&hashtags=AI%2CChromeExtension%2CClaudeAI%2COpenSource%2CWebAutomation%2CBrowserAI)
+[![Share on LinkedIn](https://img.shields.io/badge/Share%20on%20LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fgithub.com%2Fkashif0700444846%2Fai-browser-assistant)
 
 </div>
